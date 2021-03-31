@@ -8,9 +8,9 @@ import com.mitocode.model.Paciente;
 
 public interface IPacienteService {
 	
-	void registrar(Paciente pac);
+	void registrar(Paciente obj);
 	
-	void modificar(Paciente pac);
+	void modificar(Paciente obj);
 	
 	List<Paciente> listar();
 
