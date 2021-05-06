@@ -17,8 +17,8 @@ public class ExamenServiceImpl implements IExamenService{
 	private IExamenRepo repo;
 	
 	@Override
-	public void registrar(Examen obj) {
-		repo.save(obj);
+	public Examen registrar(Examen obj) {
+		return repo.save(obj);
 	}
 
 	@Override

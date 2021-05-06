@@ -5,8 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(description = "Informacion del Medico")
 @Entity
+@Table(name = "medico")
 public class Medico {
 	
 	@Id
@@ -41,8 +46,8 @@ public class Medico {
 	public String getCMP() {
 		return CMP;
 	}
-	public void setCMP(String cMP) {
-		CMP = cMP;
+	public void setCMP(String CMP) {
+		this.CMP = CMP;
 	}
 	
 

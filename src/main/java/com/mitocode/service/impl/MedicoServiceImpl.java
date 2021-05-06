@@ -17,8 +17,8 @@ public class MedicoServiceImpl implements IMedicoService{
 	private IMedicoRepo repo;
 	
 	@Override
-	public void registrar(Medico obj) {
-		repo.save(obj);
+	public Medico registrar(Medico obj) {
+		return repo.save(obj);
 	}
 
 	@Override

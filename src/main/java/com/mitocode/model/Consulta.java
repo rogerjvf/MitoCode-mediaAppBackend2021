@@ -1,11 +1,21 @@
 package com.mitocode.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 @Entity
 public class Consulta {
@@ -13,7 +23,22 @@ public class Consulta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idConsulta;
-	private Date fecha;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_paciente", nullable = false, foreignKey = @ForeignKey(name="pk_consulta_paciente"))
+	private Paciente paciente;
+	@ManyToOne
+	@JoinColumn(name = "id_medico", nullable = false, foreignKey = @ForeignKey(name="pk_consulta_medico"))
+	private Medico medico;
+	@ManyToOne
+	@JoinColumn(name = "id_especialidad", nullable = false, foreignKey = @ForeignKey(name="pk_consulta_especialidad"))
+	private Especialidad especialidad;
+	
+	@JsonSerialize(using = ToStringSerializer.class)
+	private LocalDateTime fecha;
+	
+	@OneToMany(mappedBy="consulta", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch=FetchType.LAZY, orphanRemoval=true)
+	private List<DetalleConsulta> detalleConsultas;
 	
 	public Integer getIdConsulta() {
 		return idConsulta;
@@ -21,13 +46,57 @@ public class Consulta {
 	public void setIdConsulta(Integer idConsulta) {
 		this.idConsulta = idConsulta;
 	}
-	public Date getFecha() {
+	public Paciente getPaciente() {
+		return paciente;
+	}
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+	public Medico getMedico() {
+		return medico;
+	}
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
+	public Especialidad getEspecialidad() {
+		return especialidad;
+	}
+	public void setEspecialidad(Especialidad especialidad) {
+		this.especialidad = especialidad;
+	}
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
-	
-	
-	
+	public List<DetalleConsulta> getDetalleConsultas() {
+		return detalleConsultas;
+	}
+	public void setDetalleConsultas(List<DetalleConsulta> detalleConsultas) {
+		this.detalleConsultas = detalleConsultas;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idConsulta == null) ? 0 : idConsulta.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Consulta other = (Consulta) obj;
+		if (idConsulta == null) {
+			if (other.idConsulta != null)
+				return false;
+		} else if (!idConsulta.equals(other.idConsulta))
+			return false;
+		return true;
+	}
 }

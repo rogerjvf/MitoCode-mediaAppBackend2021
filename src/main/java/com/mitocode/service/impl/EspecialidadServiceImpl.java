@@ -17,8 +17,8 @@ public class EspecialidadServiceImpl implements IEspecialidadService{
 	private IEspecialidadRepo repo;
 	
 	@Override
-	public void registrar(Especialidad obj) {
-		repo.save(obj);
+	public Especialidad registrar(Especialidad obj) {
+		return repo.save(obj);
 	}
 
 	@Override
